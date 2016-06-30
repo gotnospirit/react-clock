@@ -1,9 +1,8 @@
 import React from 'react'
 
-import Display from './Display'
-import Controls from './Controls'
+import RaisedButton from 'material-ui/RaisedButton'
 
-const getTimestamp = () => (new Date().getTime() / 1000) >> 0
+const timestamp = () => new Date().getTime()
 
 export default class App extends React.Component
 {
@@ -12,13 +11,13 @@ export default class App extends React.Component
     super(props)
 
     this.state = {
-      startedAt: null,
-      pausedAt: null,
+      started: false,
+      paused: false,
       lastUpdate: 0,
       counter: 0
     }
 
-    this.interval = null;
+    this.interval = null
   }
 
   stop()
@@ -34,27 +33,25 @@ export default class App extends React.Component
 
   onTick()
   {
-    let now = getTimestamp()
-    let delay = now - this.state.lastUpdate
+    let now = timestamp()
+    let diff = now - this.state.lastUpdate
 
-    if (now - this.state.lastUpdate)
+    if (diff > 1000)
     {
       this.setState({
         lastUpdate: now,
-        counter: this.state.counter + 1
+        counter: this.state.counter + (diff / 1000) >> 0
       })
     }
   }
 
   onResume()
   {
-    let now = getTimestamp()
-
-    console.log("resume", now)
+    console.log("resume")
 
     this.setState({
-      pausedAt: null,
-      lastUpdate: now
+      paused: false,
+      lastUpdate: timestamp()
     })
 
     this.start()
@@ -62,14 +59,12 @@ export default class App extends React.Component
 
   onStart()
   {
-    let now = getTimestamp()
-
-    console.log("started", now)
+    console.log("started")
 
     this.setState({
-      startedAt: now,
-      pausedAt: null,
-      lastUpdate: now,
+      started: true,
+      paused: false,
+      lastUpdate: timestamp(),
       counter: 0
     })
 
@@ -78,14 +73,12 @@ export default class App extends React.Component
 
   onPause()
   {
-    let now = getTimestamp()
-
-    console.log("paused", now)
+    console.log("paused")
 
     this.stop()
 
     this.setState({
-      pausedAt: now
+      paused: true
     })
   }
 
@@ -96,24 +89,42 @@ export default class App extends React.Component
     this.stop()
 
     this.setState({
-      startedAt: null,
-      pausedAt: null
+      started: false,
+      paused: false
     })
   }
 
   render()
   {
+    const { paused, started, counter } = this.state
+
     return (
-      <div>
-        <Display
-          {...this.state} />
-        <Controls
-          {...this.state}
-          onStartClick={() => this.onStart()}
-          onResumeClick={() => this.onResume()}
-          onPauseClick={() => this.onPause()}
-          onStopClick={() => this.onStop()} />
-      </div>
+        <div style={{
+            textAlign: 'center'
+        }}>
+          <div style={{
+              fontSize: '10em'
+            }}>{counter}</div>
+
+          <div>
+          {paused
+            ? <RaisedButton
+              onTouchTap={() => this.onResume()}>Resume</RaisedButton>
+            : <RaisedButton
+              disabled={!!started}
+              onTouchTap={() => this.onStart()}>Start</RaisedButton>}
+            <RaisedButton
+              style={{
+                margin: '0 .5em'
+              }}
+              disabled={!started || !!paused}
+              onTouchTap={() => this.onPause()}>Pause</RaisedButton>
+            <RaisedButton
+              disabled={!started}
+              onTouchTap={() => this.onStop()}>Stop</RaisedButton>
+          </div>
+
+        </div>
     )
   }
 }
