@@ -1,38 +1,47 @@
-export function start(timestamp)
+export function setState(state)
+{
+  return {
+    type: 'SET_STATE',
+    state
+  }
+}
+
+export function start()
 {
   return {
     type: 'START',
-    timestamp
+    meta: {
+      remote: true
+    }
   }
 }
 
 export function pause()
 {
   return {
-    type: 'PAUSE'
+    type: 'PAUSE',
+    meta: {
+      remote: true
+    }
   }
 }
 
-export function resume(timestamp)
+export function resume()
 {
   return {
     type: 'RESUME',
-    timestamp
+    meta: {
+      remote: true
+    }
   }
 }
 
 export function stop()
 {
   return {
-    type: 'STOP'
-  }
-}
-
-export function update(timestamp, value)
-{
-  return {
-    type: 'UPDATE',
-    timestamp,
-    value
+    type: 'STOP',
+    meta: {
+      remote: true
+    }
   }
 }
