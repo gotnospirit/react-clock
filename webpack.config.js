@@ -10,7 +10,10 @@ module.exports = {
     loaders: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'react-hot!babel'
+      loader: 'babel',
+      query: {
+        presets: ['es2015', 'react', 'react-hmre']
+      }
     }]
   },
   resolve: {
