@@ -1,11 +1,12 @@
 {
-  "name": "react-clock-client",
+  "name": "react-clock",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack --progress -p --config webpack.production.config.js",
-    "start": "webpack-dev-server --progress --inline --hot"
+    "start client": "webpack-dev-server --progress --inline --hot",
+    "start server": "babel-node src/server/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +28,12 @@
     "react-redux": "^4.4.5",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
+    "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   }
 }

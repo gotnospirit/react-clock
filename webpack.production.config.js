@@ -3,7 +3,7 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
-    './src/index.jsx'
+    './src/client/index.jsx'
   ],
   module: {
     loaders: [{
