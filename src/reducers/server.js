@@ -1,3 +1,5 @@
+import assign from 'object-assign'
+
 const INITIAL_STATE = {
   started: false,
   paused: false,
@@ -9,11 +11,10 @@ const timestamp = () => new Date().getTime()
 
 export default function reducer(state = INITIAL_STATE, action)
 {
-  console.log("reducer", action)
   switch (action.type)
   {
     case 'START':
-      return Object.assign({}, state, {
+      return assign({}, state, {
         started: true,
         paused: false,
         lastUpdate: timestamp(),
@@ -21,24 +22,24 @@ export default function reducer(state = INITIAL_STATE, action)
       })
 
     case 'PAUSE':
-      return Object.assign({}, state, {
+      return assign({}, state, {
         paused: true
       })
 
     case 'RESUME':
-      return Object.assign({}, state, {
+      return assign({}, state, {
         paused: false,
         lastUpdate: timestamp()
       })
 
     case 'STOP':
-      return Object.assign({}, state, {
+      return assign({}, state, {
         started: false,
         paused: false
       })
 
     case 'UPDATE':
-      return Object.assign({}, state, {
+      return assign({}, state, {
         lastUpdate: action.timestamp,
         counter: state.counter + action.value
       })
