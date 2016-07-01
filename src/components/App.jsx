@@ -1,21 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-import RaisedButton from 'material-ui/RaisedButton'
+import Display from './Display'
+import Controls from './Controls'
+
+import * as actionCreators from '../action_creators'
 
 const timestamp = () => new Date().getTime()
 
-export default class App extends React.Component
+export class App extends React.Component
 {
   constructor(props)
   {
     super(props)
-
-    this.state = {
-      started: false,
-      paused: false,
-      lastUpdate: 0,
-      counter: 0
-    }
 
     this.interval = null
   }
@@ -34,39 +31,32 @@ export default class App extends React.Component
   onTick()
   {
     let now = timestamp()
-    let diff = now - this.state.lastUpdate
+    let diff = now - this.props.lastUpdate
 
     if (diff > 1000)
     {
-      this.setState({
-        lastUpdate: now,
-        counter: this.state.counter + (diff / 1000) >> 0
-      })
+      this.props.update(now, this.props.counter + (diff / 1000) >> 0)
     }
   }
 
   onResume()
   {
-    console.log("resume")
+    let now = timestamp()
 
-    this.setState({
-      paused: false,
-      lastUpdate: timestamp()
-    })
+    console.log("resume", now)
+
+    this.props.resume(now)
 
     this.start()
   }
 
   onStart()
   {
-    console.log("started")
+    let now = timestamp()
 
-    this.setState({
-      started: true,
-      paused: false,
-      lastUpdate: timestamp(),
-      counter: 0
-    })
+    console.log("started", now)
+
+    this.props.start(now)
 
     this.start()
   }
@@ -77,9 +67,7 @@ export default class App extends React.Component
 
     this.stop()
 
-    this.setState({
-      paused: true
-    })
+    this.props.pause()
   }
 
   onStop()
@@ -88,43 +76,36 @@ export default class App extends React.Component
 
     this.stop()
 
-    this.setState({
-      started: false,
-      paused: false
-    })
+    this.props.stop()
   }
 
   render()
   {
-    const { paused, started, counter } = this.state
+    const { paused, started, counter } = this.props
 
     return (
         <div style={{
             textAlign: 'center'
         }}>
-          <div style={{
-              fontSize: '10em'
-            }}>{counter}</div>
+          <Display
+            counter={counter}
+            />
 
-          <div>
-          {paused
-            ? <RaisedButton
-              onTouchTap={() => this.onResume()}>Resume</RaisedButton>
-            : <RaisedButton
-              disabled={!!started}
-              onTouchTap={() => this.onStart()}>Start</RaisedButton>}
-            <RaisedButton
-              style={{
-                margin: '0 .5em'
-              }}
-              disabled={!started || !!paused}
-              onTouchTap={() => this.onPause()}>Pause</RaisedButton>
-            <RaisedButton
-              disabled={!started}
-              onTouchTap={() => this.onStop()}>Stop</RaisedButton>
-          </div>
+          <Controls
+            paused={paused}
+            started={started}
+            onResume={() => this.onResume()}
+            onStart={() => this.onStart()}
+            onPause={() => this.onPause()}
+            onStop={() => this.onStop()}
+            />
 
         </div>
     )
   }
 }
+
+export const AppContainer = connect(
+  (state) => state,
+  actionCreators
+)(App)
