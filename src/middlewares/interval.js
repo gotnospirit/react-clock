@@ -1,6 +1,6 @@
-let interval = null
+import { tick } from '../actions/creators'
 
-const timestamp = () => new Date().getTime()
+let interval = null
 
 export default store => next => action => {
   switch (action.type)
@@ -9,17 +9,7 @@ export default store => next => action => {
     case 'RESUME':
       clearInterval(interval)
       interval = setInterval(() => {
-        let now = timestamp()
-        let diff = now - store.getState().lastUpdate
-
-        if (diff > 1000)
-        {
-          next({
-            type: 'UPDATE',
-            timestamp: now,
-            value: (diff / 1000) >> 0
-          })
-        }
+        next(tick())
       }, 1)
       break
 

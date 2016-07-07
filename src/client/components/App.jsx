@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 import Display from './Display'
 import Controls from './Controls'
 
-import * as actionCreators from '../action_creators'
+import * as actionCreators from '../../actions/creators'
 
 class App extends React.Component
 {
   render()
   {
-    const { paused, started, counter, resume, start, pause, stop } = this.props
+    const { paused, started, counter, resume, start, pause, stop, reset } = this.props
 
     return (
         <div style={{
@@ -25,7 +25,8 @@ class App extends React.Component
             onResume={resume}
             onStart={start}
             onPause={pause}
-            onStop={stop} />
+            onStop={stop}
+            onReset={reset} />
         </div>
     )
   }

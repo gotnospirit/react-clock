@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --progress -p --config webpack.production.config.js",
     "start client": "webpack-dev-server --progress --inline --hot",
-    "start server": "babel-node src/server/index.js"
+    "start server": "babel-node src/remote.js"
   },
   "author": "",
   "license": "ISC",

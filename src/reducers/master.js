@@ -3,9 +3,10 @@ import assign from 'object-assign'
 const INITIAL_STATE = {
   started: false,
   paused: false,
-  lastUpdate: 0,
   counter: 0
 }
+
+let lastUpdate = 0
 
 const timestamp = () => new Date().getTime()
 
@@ -14,10 +15,10 @@ export default function reducer(state = INITIAL_STATE, action)
   switch (action.type)
   {
     case 'START':
+      lastUpdate = timestamp()
       return assign({}, state, {
         started: true,
         paused: false,
-        lastUpdate: timestamp(),
         counter: 0
       })
 
@@ -27,9 +28,9 @@ export default function reducer(state = INITIAL_STATE, action)
       })
 
     case 'RESUME':
+      lastUpdate = timestamp()
       return assign({}, state, {
-        paused: false,
-        lastUpdate: timestamp()
+        paused: false
       })
 
     case 'STOP':
@@ -38,11 +39,24 @@ export default function reducer(state = INITIAL_STATE, action)
         paused: false
       })
 
-    case 'UPDATE':
+    case 'RESET':
       return assign({}, state, {
-        lastUpdate: action.timestamp,
-        counter: state.counter + action.value
+        started: false,
+        paused: false,
+        counter: 0
       })
+
+    case 'TICK':
+      let now = timestamp()
+      let diff = now - lastUpdate
+
+      if (diff > 1000)
+      {
+        lastUpdate = now
+        return assign({}, state, {
+          counter: state.counter + ((diff / 1000) >> 0)
+        })
+      }
   }
   return state
 }
