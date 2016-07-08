@@ -3,7 +3,7 @@ import assign from 'object-assign'
 const INITIAL_STATE = {
   started: false,
   paused: false,
-  counter: 0
+  counter: null
 }
 
 let lastUpdate = 0
@@ -43,7 +43,7 @@ export default function reducer(state = INITIAL_STATE, action)
       return assign({}, state, {
         started: false,
         paused: false,
-        counter: 0
+        counter: null
       })
 
     case 'TICK':

@@ -4,5 +4,5 @@ export default function ({ counter }) {
   return (
     <div style={{
         fontSize: '10em'
-      }}>{counter}</div>)
+      }}>{null !== counter ? counter : '-'}</div>)
 }
