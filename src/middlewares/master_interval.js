@@ -1,22 +1,27 @@
 import { tick } from '../actions/creators'
 
-let interval = null
+let IntervalID = null
+
+const stop = () => {
+  clearInterval(IntervalID)
+  IntervalID = null
+}
 
 export default store => next => action => {
   switch (action.type)
   {
     case 'START':
     case 'RESUME':
-      clearInterval(interval)
-      interval = setInterval(() => {
+      stop()
+
+      IntervalID = setInterval(() => {
         next(tick())
       }, 1)
       break
 
     case 'STOP':
     case 'PAUSE':
-      clearInterval(interval)
-      interval = null
+      stop()
       break
   }
   return next(action)

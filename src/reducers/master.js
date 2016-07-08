@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   counter: null
 }
 
-let lastUpdate = 0
+let LastUpdate = 0
 
 const timestamp = () => new Date().getTime()
 
@@ -15,7 +15,7 @@ export default function reducer(state = INITIAL_STATE, action)
   switch (action.type)
   {
     case 'START':
-      lastUpdate = timestamp()
+      LastUpdate = timestamp()
       return assign({}, state, {
         started: true,
         paused: false,
@@ -28,7 +28,7 @@ export default function reducer(state = INITIAL_STATE, action)
       })
 
     case 'RESUME':
-      lastUpdate = timestamp()
+      LastUpdate = timestamp()
       return assign({}, state, {
         paused: false
       })
@@ -48,11 +48,11 @@ export default function reducer(state = INITIAL_STATE, action)
 
     case 'TICK':
       let now = timestamp()
-      let diff = now - lastUpdate
+      let diff = now - LastUpdate
 
       if (diff > 1000)
       {
-        lastUpdate = now
+        LastUpdate = now
         return assign({}, state, {
           counter: state.counter + ((diff / 1000) >> 0)
         })

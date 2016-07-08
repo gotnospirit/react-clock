@@ -6,11 +6,11 @@ const styles = {
   marginLeft: '.5em'
 }
 
-export default function ({
+export default ({
   started, paused,
   onResume, onStart, onPause, onStop, onReset
-}) {
-  return (<div>
+}) =>
+  <div>
   {paused
     ? <RaisedButton
       onTouchTap={onResume}>Resume</RaisedButton>
@@ -29,5 +29,4 @@ export default function ({
       style={styles}
       disabled={started}
       onTouchTap={onReset}>Reset</RaisedButton>
-  </div>)
-}
+  </div>

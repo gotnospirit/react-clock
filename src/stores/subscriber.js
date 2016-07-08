@@ -1,13 +1,13 @@
 export default (store, next) => {
-  let lastState = null
+  let LastState = null
 
   store.subscribe(
     () => {
       let state = store.getState()
 
-      if (lastState !== state)
+      if (LastState !== state)
       {
-        lastState = state
+        LastState = state
         next(state)
       }
     }

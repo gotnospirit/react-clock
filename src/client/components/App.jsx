@@ -6,30 +6,23 @@ import Controls from './Controls'
 
 import * as actionCreators from '../../actions/creators'
 
-class App extends React.Component
-{
-  render()
-  {
-    const { paused, started, counter, resume, start, pause, stop, reset } = this.props
+const App = ({ paused, started, counter, resume, start, pause, stop, reset }) => {
+  return (
+    <div style={{
+        textAlign: 'center'
+    }}>
+      <Display
+        counter={counter} />
 
-    return (
-        <div style={{
-            textAlign: 'center'
-        }}>
-          <Display
-            counter={counter} />
-
-          <Controls
-            paused={paused}
-            started={started}
-            onResume={resume}
-            onStart={start}
-            onPause={pause}
-            onStop={stop}
-            onReset={reset} />
-        </div>
-    )
-  }
+      <Controls
+        paused={paused}
+        started={started}
+        onResume={resume}
+        onStart={start}
+        onPause={pause}
+        onStop={stop}
+        onReset={reset} />
+    </div>)
 }
 
 export default connect(
