@@ -1,6 +1,16 @@
 import React from 'react'
 
-export default ({ counter }) =>
-  <div style={{
-    fontSize: '10em'
-  }}>{null !== counter ? counter : '-'}</div>
+const counterStyles = {
+  fontSize: '10em',
+  display: 'block'
+}
+
+export default ({ counter, level }) =>
+  <div>
+    <span style={counterStyles}>{null !== counter ? counter : '-'}</span>
+    <span>{!level
+      ? "-"
+      : (level.betting
+        ? level.betting
+        : "[pause]")}</span>
+  </div>

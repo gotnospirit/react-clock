@@ -15,7 +15,14 @@ export default store => next => action => {
       stop()
 
       IntervalID = setInterval(() => {
-        next(tick())
+        if (store.getState().started)
+        {
+          next(tick())
+        }
+        else
+        {
+          stop()
+        }
       }, 1)
       break
 

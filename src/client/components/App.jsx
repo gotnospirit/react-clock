@@ -6,12 +6,13 @@ import Controls from './Controls'
 
 import * as actionCreators from '../../actions/creators'
 
-const App = ({ paused, started, counter, resume, start, pause, stop, reset }) => {
+const App = ({ paused, started, counter, current_level, resume, start, pause, stop, reset }) => {
   return (
     <div style={{
         textAlign: 'center'
     }}>
       <Display
+        level={current_level}
         counter={counter} />
 
       <Controls
